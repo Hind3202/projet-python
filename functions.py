@@ -6,6 +6,9 @@ import praw
 from datetime import datetime
 import urllib.request  # Requêtes HTTP
 import xmltodict  # Convertir des données XML en un dictionnaire Python
+import ipywidgets as widgets #création d'éléments interactifs dans les notebooks Jupyter
+from IPython.display import display #affichage de widgets et de contenu HTML
+
 
 
 def principale(mot_cle, nb_docs):
@@ -16,6 +19,7 @@ def principale(mot_cle, nb_docs):
         client_secret="UjTwgH4CQOdubhvRJcH0gNInKNYYLA",
         user_agent="hind",
     )
+    
     
     # Traitement des données de Reddit
     subr = reddit.subreddit(mot_cle)
@@ -34,7 +38,6 @@ def principale(mot_cle, nb_docs):
     data = url_read.decode()
     dic = xmltodict.parse(data)
     docs = dic["feed"]["entry"]
-
     
     # Initialisation de dictionnaires pour stocker les documents et auteurs
     id2doc = dict()
@@ -101,8 +104,7 @@ def principale(mot_cle, nb_docs):
     # Ajout des documents et auteurs au corpus
     for document in id2doc.values():
         corpus.add(document)
-        
-
+    
     # Sauvegarde du corpus
     corpus.save("mon_corpus.pkl")
     
